@@ -1,6 +1,6 @@
 var apiKey = 'qQ7VYpNGk9n2b33tvNje8yNmYVxLsQo7SoYhZ7PPmLYKMhOLC2';
 //remove before commit
-var secretKey = '02v43RmzmoOLmigXxahBZHRRGTBqHerr6NpnVe87';
+var secretKey = '';
 
 $('.dropdown-trigger').dropdown();
 
