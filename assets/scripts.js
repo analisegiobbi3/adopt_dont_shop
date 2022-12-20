@@ -1,7 +1,8 @@
 var apiKey = 'qQ7VYpNGk9n2b33tvNje8yNmYVxLsQo7SoYhZ7PPmLYKMhOLC2';
 //remove before commit
-var secretKey = '';
-var inputEl = $("#pet-name")
+var secretKey = '02v43RmzmoOLmigXxahBZHRRGTBqHerr6NpnVe87';
+var inputEl = $("#animal-name");
+var buttonEl = $("#searchAnimal");
 
 // $('.dropdown-trigger').dropdown();
 
@@ -18,7 +19,7 @@ var searchHandler = function(event){
         //add error handler
     }
 }
-//buttonEl.on('submit', searchHandler)
+buttonEl.on('click', searchHandler)
 
 //pet search grabs the animal input from the animal input function and pulls data for the animal type 
 var petSearch = function (animal){
