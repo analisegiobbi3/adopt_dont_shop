@@ -1,8 +1,10 @@
 var apiKey = 'qQ7VYpNGk9n2b33tvNje8yNmYVxLsQo7SoYhZ7PPmLYKMhOLC2';
 //remove before commit
-var secretKey = '02v43RmzmoOLmigXxahBZHRRGTBqHerr6NpnVe87';
+var secretKey = '';
 var inputEl = $("#animal-name");
 var buttonEl = $("#searchAnimal");
+var resultsEl = $("#result-content");
+var breedSearchEl = $(".breedSearch")
 
 // $('.dropdown-trigger').dropdown();
 
@@ -47,18 +49,16 @@ var petSearch = function (animal){
     }).then(function (data) {
         // Log the pet data
         console.log('pets', data);
-        // var animalArray = data.animals;
-        // for (var i=0; i<animalArray.length; i++){
-        //     var breed = data.animals[i].breeds.primary;
-        //     var breedButton = $("<button>")
-        //     breedButton.text(breed);
-        //     breedButton.attr('data-breed', breed)
-        //     $(".list").append(breedButton)
-        //     //need to append to list, need id for area with list 
-        // }
-        var breed = data.animals[10].breeds.primary;
-        console.log(breed);
-        wikiSearch(breed)
+        var animalArray = data.animals;
+        for (var i=0; i<animalArray.length; i++){
+            var breed = data.animals[i].breeds.primary;
+            var name  = data.animals[i].name;
+            var status = data.animals[i].status;
+            var image = data.animals[i].photos[0];
+            renderResults(breed, name, status, image);
+        }
+
+        // wikiSearch(breed)
     
     }).catch(function (err) {
     
@@ -87,3 +87,45 @@ function wikiSearch(searchTerm) {
         alert('Unable to connect to location services');
     })
 }
+
+function renderResults(breed, name, status, image){
+    var resultsCard = document.createElement('div');
+    resultsCard.classList.add('card')
+
+    var resultsBody = document.createElement('div');
+    resultsBody.classList.add('card-body')
+    resultsCard.append(resultsBody);
+
+    var animalName = document.createElement('h3');
+    animalName.textContent = name;
+
+    var animalImage = document.createElement('img');
+    animalImage.textContent = image;
+
+    var animalBreed = document.createElement('button');
+    animalBreed.setAttribute("class", "breedSearch")
+    animalBreed.setAttribute("data-breed", breed)
+    animalBreed.textContent = breed;
+
+    var adoptionStatus = document.createElement('h4');
+    adoptionStatus.textContent = status; 
+
+    var saveButton = document.createElement('button');
+    saveButton.innerHTML = "SAVE"
+
+
+
+    resultsEl.append(resultsCard)
+    resultsBody.append(animalName, animalBreed, adoptionStatus, saveButton)
+}
+
+var breedSearchHandler = function(event){
+    var breedText = event.target.attr("data-breed")
+    console.log(breedText)
+    // var breedText = event.target.innerHTML
+    wikiSearch(breedText)
+}
+
+breedSearchEl.on('click', breedSearchHandler)
+
+

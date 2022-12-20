@@ -7,6 +7,9 @@
        
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Righteous&family=Rubik+Spray+Paint&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sen&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./assets/style.css" />
     <script
@@ -34,17 +37,17 @@
           </ul>
           
           <!-- Dropdown Trigger -->
-          <a class='dropdown-trigger btn' href='#' data-target='animalSelector'>Common Pets</a>
+          <a class='dropdown-trigger btn' href='#' data-target='animalSelector' style="background-color: #c77dff;">Common Pets</a>
           
           <div class="row">
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s12">
                   <input id="animal-name" type="text" class="validate">
-                  <label for="search">Search other animals...</label>
+                  <label for="search" style="color: white; font-size: 20px; font-weight: bold;">Search other animals...</label>
                 </div>
               </div>
-              <button class="btn waves-effect waves-light btn-large col s12" id="searchAnimal" type="submit" name="action">Submit
+              <button class="btn waves-effect waves-light btn-large col s12" id="searchAnimal" type="submit" name="action" style="background-color: #c77dff;">Submit
                 <i class="material-icons right">pets</i>
               </button>
             </form>
@@ -53,17 +56,20 @@
 
           <!-- Button for locally stored pets -->
           <br>
-          <a class="waves-effect waves-light btn-large col s12">Load Saved Pets</a>
+          <a class="waves-effect waves-light btn-large col s12" style="background-color: #c77dff;">Load Saved Pets</a>
         </div>
 
         <!-- Right Side of Page -->
         <div class="col s12 l6">
-          <ul class="collection">
+            <h3 id="result-text">Search Results: </h3>
+            <div id="result-content"></div>
+          <!-- <ul class="collection">
+            <h3>Search Results: </h3>
             <li class="collection-item">Pet1</li>
             <li class="collection-item">Pet2</li>
             <li class="collection-item">Pet3</li>
             <li class="collection-item">Pet4</li>
-          </ul>
+          </ul> -->
         </div>
       </div>
 
@@ -71,4 +77,5 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="./assets/scripts.js"></script>
   </body>
+
   </html>
