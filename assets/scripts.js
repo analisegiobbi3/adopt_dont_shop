@@ -5,6 +5,7 @@ var inputEl = $("#animal-name");
 var buttonEl = $("#searchAnimal");
 var resultsEl = $("#result-content");
 var breedSearchEl = $(".breedSearch")
+var seeSavedResultsEl = $("#seeStoredResults")
 
 // $('.dropdown-trigger').dropdown();
 
@@ -138,14 +139,16 @@ var breedSearchHandler = function(event){
 
 function getStorePets(){
     var savedResults = JSON.parse(localStorage.getItem("savePets"))
+    console.log(savedResults)
     var savedResultsCard = document.createElement('div');
     savedResultsCard.classList.add('card')
+    seeSavedResultsEl.append(savedResultsCard)
 
-    var savedresultsBody = document.createElement('div');
     var savedresultsBody = document.createElement('div');
     savedresultsBody.classList.add('card-body')
     savedResultsCard.append(savedresultsBody);
     var savedName = document.createElement('h3');
+    savedresultsBody.append(savedName)
     savedName.textContent = savedResults;   
 }
 
