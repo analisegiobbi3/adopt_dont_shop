@@ -120,12 +120,11 @@ function renderResults(breed, name, status, image){
 }
 
 var breedSearchHandler = function(event){
-    var breedText = event.target.attr("data-breed")
-    console.log(breedText)
-    // var breedText = event.target.innerHTML
-    wikiSearch(breedText)
+    var breedText = event.target.dataset.breed;
+    console.log(event.target);
+    wikiSearch(breedText);
 }
 
-breedSearchEl.on('click', breedSearchHandler)
+$("#result-content").on('click', breedSearchHandler)
 
 
