@@ -1,10 +1,10 @@
 var apiKey = 'qQ7VYpNGk9n2b33tvNje8yNmYVxLsQo7SoYhZ7PPmLYKMhOLC2';
 //remove before commit
-var secretKey = '';
+var secretKey = '02v43RmzmoOLmigXxahBZHRRGTBqHerr6NpnVe87';
 var inputEl = $("#animal-name");
 var buttonEl = $("#searchAnimal");
 var resultsEl = $("#result-content");
-var breedSearchEl = $(".breedSearch")
+var breedSearchEl = $(".breedSearch");
 
 // $('.dropdown-trigger').dropdown();
 
@@ -78,13 +78,13 @@ function wikiSearch(searchTerm) {
     .then(function(data) {
         console.log(data);
         var breedSearch = data.source;
-        console.log(breedSearch)
+        localStorage.setItem('storedBreed', JSON.stringify(breedSearch));
         //html element, like <p> and we add text content 
-
+        document.location.assign('./breed-info.html');
     })
     })
     .catch(function (error) {
-        alert('Unable to connect to location services');
+        alert(error);
     })
 }
 
@@ -103,20 +103,20 @@ function renderResults(breed, name, status, image){
     animalImage.textContent = image;
 
     var animalBreed = document.createElement('button');
-    animalBreed.setAttribute("class", "breedSearch")
-    animalBreed.setAttribute("data-breed", breed)
+    animalBreed.setAttribute("class", "breedSearch");
+    animalBreed.setAttribute("data-breed", breed);
     animalBreed.textContent = breed;
 
     var adoptionStatus = document.createElement('h4');
-    adoptionStatus.textContent = status; 
+    adoptionStatus.textContent = status;
 
     var saveButton = document.createElement('button');
-    saveButton.innerHTML = "SAVE"
+    saveButton.innerHTML = "SAVE";
 
 
 
-    resultsEl.append(resultsCard)
-    resultsBody.append(animalName, animalBreed, adoptionStatus, saveButton)
+    resultsEl.append(resultsCard);
+    resultsBody.append(animalName, animalBreed, adoptionStatus, saveButton);
 }
 
 var breedSearchHandler = function(event){
@@ -126,5 +126,4 @@ var breedSearchHandler = function(event){
 }
 
 $("#result-content").on('click', breedSearchHandler)
-
 
