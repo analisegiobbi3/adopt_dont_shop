@@ -1,6 +1,6 @@
 var apiKey = 'qQ7VYpNGk9n2b33tvNje8yNmYVxLsQo7SoYhZ7PPmLYKMhOLC2';
 //remove before commit
-var secretKey = '';
+var secretKey = '02v43RmzmoOLmigXxahBZHRRGTBqHerr6NpnVe87';
 var inputEl = $("#animal-name");
 var buttonEl = $("#searchAnimal");
 var resultsEl = $("#result-content");
@@ -49,6 +49,7 @@ var petSearch = function (animal){
     }).then(function (data) {
         // Log the pet data
         console.log('pets', data);
+        $("#result-content").empty();
         var animalArray = data.animals;
         for (var i=0; i<animalArray.length; i++){
             var breed = data.animals[i].breeds.primary;
@@ -97,6 +98,7 @@ function renderResults(breed, name, status, image){
     resultsCard.append(resultsBody);
 
     var animalName = document.createElement('h3');
+    animalName.setAttribute("data-name", name)
     animalName.textContent = name;
 
     var animalImage = document.createElement('img');
@@ -111,6 +113,7 @@ function renderResults(breed, name, status, image){
     adoptionStatus.textContent = status; 
 
     var saveButton = document.createElement('button');
+    saveButton.setAttribute("data-save", "save")
     saveButton.innerHTML = "SAVE"
 
 
@@ -119,12 +122,35 @@ function renderResults(breed, name, status, image){
     resultsBody.append(animalName, animalBreed, adoptionStatus, saveButton)
 }
 
+var storedPets = []
 var breedSearchHandler = function(event){
     var breedText = event.target.dataset.breed;
-    console.log(event.target);
-    wikiSearch(breedText);
+    var savebutton = event.target.dataset.save;
+    if (savebutton === "save"){
+        var petInfo = event.target.parentNode.firstChild.dataset.name;
+        console.log(petInfo)
+        storedPets.push(petInfo);
+        localStorage.setItem("savePets", JSON.stringify(storedPets));
+    }else{
+        wikiSearch(breedText);
+    }
 }
 
-$("#result-content").on('click', breedSearchHandler)
+function getStorePets(){
+    var savedResults = JSON.parse(localStorage.getItem("savePets"))
+    var savedResultsCard = document.createElement('div');
+    savedResultsCard.classList.add('card')
+
+    var savedresultsBody = document.createElement('div');
+    var savedresultsBody = document.createElement('div');
+    savedresultsBody.classList.add('card-body')
+    savedResultsCard.append(savedresultsBody);
+    var savedName = document.createElement('h3');
+    savedName.textContent = savedResults;   
+}
+
+$("#result-content").on('click', breedSearchHandler);
+$("#loadPets").on('click', getStorePets);
+
 
 
