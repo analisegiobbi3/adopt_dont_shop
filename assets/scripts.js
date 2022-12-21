@@ -1,6 +1,6 @@
 var apiKey = 'qQ7VYpNGk9n2b33tvNje8yNmYVxLsQo7SoYhZ7PPmLYKMhOLC2';
 //remove before commit
-var secretKey = '02v43RmzmoOLmigXxahBZHRRGTBqHerr6NpnVe87';
+var secretKey = '';
 var inputEl = $("#animal-name");
 var buttonEl = $("#searchAnimal");
 var resultsEl = $("#result-content");
@@ -57,7 +57,8 @@ var petSearch = function (animal){
             var name  = data.animals[i].name;
             var status = data.animals[i].status;
             var image = data.animals[i].photos[0];
-            renderResults(breed, name, status, image);
+            var url = data.animals[i].url;
+            renderResults(breed, name, status, image, url);
         }
 
         // wikiSearch(breed)
@@ -90,13 +91,17 @@ function wikiSearch(searchTerm) {
     })
 }
 
-function renderResults(breed, name, status, image){
+function renderResults(breed, name, status, image, url){
     var resultsCard = document.createElement('div');
     resultsCard.classList.add('card')
 
     var resultsBody = document.createElement('div');
     resultsBody.classList.add('card-body')
     resultsCard.append(resultsBody);
+
+    var adoptionButton = document.createElement('link');
+    adoptionButton.setAttribute('src', url);
+    adoptionButton.setAttribute('data-link', url)
 
     var animalName = document.createElement('h3');
     animalName.setAttribute("data-name", name)
@@ -112,7 +117,7 @@ function renderResults(breed, name, status, image){
 
     var adoptionStatus = document.createElement('h4');
     adoptionStatus.textContent = status; 
-
+    
     var saveButton = document.createElement('button');
     saveButton.setAttribute("data-save", "save")
     saveButton.innerHTML = "SAVE"
@@ -120,15 +125,16 @@ function renderResults(breed, name, status, image){
 
 
     resultsEl.append(resultsCard)
-    resultsBody.append(animalName, animalBreed, adoptionStatus, saveButton)
+    resultsBody.append(adoptionButton, animalName, animalBreed, adoptionStatus, saveButton)
 }
 
 var storedPets = []
 var breedSearchHandler = function(event){
     var breedText = event.target.dataset.breed;
     var savebutton = event.target.dataset.save;
+    var adoptionLink = event.target.dataset.link
     if (savebutton === "save"){
-        var petInfo = event.target.parentNode.firstChild.dataset.name;
+        var petInfo = event.target.parentNode.firstChild.dataset.link;
         console.log(petInfo)
         storedPets.push(petInfo);
         localStorage.setItem("savePets", JSON.stringify(storedPets));
@@ -138,6 +144,7 @@ var breedSearchHandler = function(event){
 }
 
 function getStorePets(){
+    $("#seeStoredResults").empty();
     var savedResults = JSON.parse(localStorage.getItem("savePets"))
     console.log(savedResults)
     var savedResultsCard = document.createElement('div');
@@ -147,9 +154,9 @@ function getStorePets(){
     var savedresultsBody = document.createElement('div');
     savedresultsBody.classList.add('card-body')
     savedResultsCard.append(savedresultsBody);
-    var savedName = document.createElement('h3');
+    var savedName = document.createElement('button');
     savedresultsBody.append(savedName)
-    savedName.textContent = savedResults;   
+    savedName.innerHTML = savedResults;   
 }
 
 $("#result-content").on('click', breedSearchHandler);
