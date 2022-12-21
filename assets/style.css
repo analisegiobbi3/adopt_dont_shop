@@ -1,5 +1,43 @@
+body{
+    background-color: #e4c1f9;
+}
+
+
 header {
     text-align: center;
-    background-color: black;
-    color: aliceblue;
+    background-color: #5a189a;
+    color: white;
+    /* font-family: 'Righteous', cursive; */
+    font-family: 'Luckiest Guy', cursive;
+    margin: 10px;
+    padding: 10px;
+    border: solid white;
+}
+
+.card{
+    background-color: #5a189a;
+    color: white;
+    text-align: center;
+    font-family: 'Sen', sans-serif;
+    border-radius: 5px;
+}
+
+.card-body{
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+
+.breedSearch{
+    border-radius: 5px;
+    height: auto;
+    width: 25%;
+    font-family: 'Sen', sans-serif;
+    background-color: #c77dff;
+    color: white;
+
+}
+
+#result-text{
+    font-family: 'Sen', sans-serif;
+    color: white;
 }
