@@ -56,7 +56,7 @@ var petSearch = function (animal){
             var breed = data.animals[i].breeds.primary;
             var name  = data.animals[i].name;
             var status = data.animals[i].status;
-            var image = data.animals[i].photos[0];
+            var image = data.animals[i].photos[0].medium;
             var url = data.animals[i].url;
             renderResults(breed, name, status, image, url);
         }
@@ -108,8 +108,10 @@ function renderResults(breed, name, status, image, url){
     animalName.textContent = name;
 
     var animalImage = document.createElement('img');
-    animalImage.textContent = image;
+    animalImage.setAttribute('src', image)
+    animalImage.setAttribute('style', 'display: block; flex; margin-left: auto; margin-right: auto;')
 
+    
     var animalBreed = document.createElement('button');
     animalBreed.setAttribute("class", "breedSearch")
     animalBreed.setAttribute("data-breed", breed)
@@ -125,7 +127,7 @@ function renderResults(breed, name, status, image, url){
 
 
     resultsEl.append(resultsCard)
-    resultsBody.append(adoptionButton, animalName, animalBreed, adoptionStatus, saveButton)
+    resultsBody.append(adoptionButton, animalName, animalImage, animalBreed, adoptionStatus, saveButton)
 }
 
 var storedPets = []
