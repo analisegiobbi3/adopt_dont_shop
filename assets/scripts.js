@@ -88,6 +88,7 @@ var petSearch = function (animal){
 //wiki function take the breen from the previous data query and searches for it in wikipedia 
 function wikiSearch(searchTerm) {
     var wikiURL = 'https://en.wikipedia.org/w/rest.php/v1/page/'+searchTerm;
+    // URL for potentially more accurate wiki search: 'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+searchTerm+ '&format=json'
     fetch(wikiURL)
         .then(function(response){
         response.json()
