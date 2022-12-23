@@ -151,7 +151,6 @@ var breedSearchHandler = function(event){
     var adoptionLink = event.target.dataset.link
     if (savebutton === "save"){
         var petInfo = event.target.parentNode.firstChild.dataset.link;
-        console.log(petInfo)
         storedPets.push(petInfo);
         localStorage.setItem("savePets", JSON.stringify(storedPets));
     }else{
@@ -160,18 +159,17 @@ var breedSearchHandler = function(event){
 }
 
 function getStorePets(){
+    var getlocalStorage = JSON.parse(localStorage.getItem("savePets"))
+    console.log(getlocalStorage)
     $("#seeStoredResults").empty();
-    var savedResults = JSON.parse(localStorage.getItem("savePets"))
-    var savedResultsCard = document.createElement('div');
-    savedResultsCard.classList.add('card')
-    seeSavedResultsEl.append(savedResultsCard)
-
-    var savedresultsBody = document.createElement('div');
-    savedresultsBody.classList.add('card-body')
-    savedResultsCard.append(savedresultsBody);
-    var savedName = document.createElement('button');
-    savedresultsBody.append(savedName)
-    savedName.innerHTML = savedResults;   
+    for (var j=0; j<getlocalStorage.length; j++){
+        var savedName =$("<a>");
+        var listSavedName = $("<li>");
+        $("#seeStoredResults").append(listSavedName); 
+        listSavedName.append(savedName);
+        savedName.text(getlocalStorage[j]);
+        savedName.attr("href", getlocalStorage[j]);
+    }
 }
 
 $("#result-content").on('click', breedSearchHandler);
