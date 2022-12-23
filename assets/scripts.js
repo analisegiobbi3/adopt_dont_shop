@@ -66,7 +66,7 @@ var petSearch = function (animal){
                     var image = data.animals[i].photos[0].large;
                 }
             }else{
-                var image = "https://oionline.com/wp-content/uploads/2018/03/notfound.jpg"
+                var image = "https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg"
             }
 
             var url = data.animals[i].url;
