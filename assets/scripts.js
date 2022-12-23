@@ -4,6 +4,9 @@ var secretKey = '02v43RmzmoOLmigXxahBZHRRGTBqHerr6NpnVe87';
 var inputEl = $("#animal-name");
 var buttonEl = $("#searchAnimal");
 var resultsEl = $("#result-content");
+
+var breedSearchEl = $(".breedSearch")
+var seeSavedResultsEl = $("#seeStoredResults")
 var breedSearchEl = $(".breedSearch");
 
 // $('.dropdown-trigger').dropdown();
@@ -49,13 +52,26 @@ var petSearch = function (animal){
     }).then(function (data) {
         // Log the pet data
         console.log('pets', data);
+        $("#result-content").empty();
         var animalArray = data.animals;
         for (var i=0; i<animalArray.length; i++){
             var breed = data.animals[i].breeds.primary;
             var name  = data.animals[i].name;
             var status = data.animals[i].status;
-            var image = data.animals[i].photos[0];
-            renderResults(breed, name, status, image);
+            if (data.animals[i].photos.length>0){
+                if (data.animals[i].photos[0].small){
+                    var image = data.animals[i].photos[0].small;
+                }else if (data.animals[i].photos[0].medium){
+                    var image = data.animals[i].photos[0].medium;
+                }else if(data.animals[i].photos[0].large){
+                    var image = data.animals[i].photos[0].large;
+                }
+            }else{
+                var image = "https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg"
+            }
+
+            var url = data.animals[i].url;
+            renderResults(breed, name, status, image, url);
         }
 
         // wikiSearch(breed)
@@ -88,7 +104,7 @@ function wikiSearch(searchTerm) {
     })
 }
 
-function renderResults(breed, name, status, image){
+function renderResults(breed, name, status, image, url){
     var resultsCard = document.createElement('div');
     resultsCard.classList.add('card')
 
@@ -96,34 +112,69 @@ function renderResults(breed, name, status, image){
     resultsBody.classList.add('card-body')
     resultsCard.append(resultsBody);
 
+    var adoptionButton = document.createElement('link');
+    adoptionButton.setAttribute('src', url);
+    adoptionButton.setAttribute('data-link', url)
+
     var animalName = document.createElement('h3');
+    animalName.setAttribute("data-name", name)
     animalName.textContent = name;
 
     var animalImage = document.createElement('img');
-    animalImage.textContent = image;
+    animalImage.setAttribute('src', image)
+    animalImage.setAttribute('style', 'display: block; flex; margin-left: auto; margin-right: auto;')
 
+    
     var animalBreed = document.createElement('button');
     animalBreed.setAttribute("class", "breedSearch");
     animalBreed.setAttribute("data-breed", breed);
     animalBreed.textContent = breed;
 
     var adoptionStatus = document.createElement('h4');
-    adoptionStatus.textContent = status;
 
+    adoptionStatus.textContent = status; 
+    
     var saveButton = document.createElement('button');
-    saveButton.innerHTML = "SAVE";
+    saveButton.setAttribute("data-save", "save")
+    saveButton.innerHTML = "SAVE"
 
 
 
-    resultsEl.append(resultsCard);
-    resultsBody.append(animalName, animalBreed, adoptionStatus, saveButton);
+    resultsEl.append(resultsCard)
+    resultsBody.append(adoptionButton, animalName, animalImage, animalBreed, adoptionStatus, saveButton)
 }
 
+var storedPets = []
 var breedSearchHandler = function(event){
     var breedText = event.target.dataset.breed;
-    console.log(event.target);
-    wikiSearch(breedText);
+    var savebutton = event.target.dataset.save;
+    var adoptionLink = event.target.dataset.link
+    if (savebutton === "save"){
+        var petInfo = event.target.parentNode.firstChild.dataset.link;
+        console.log(petInfo)
+        storedPets.push(petInfo);
+        localStorage.setItem("savePets", JSON.stringify(storedPets));
+    }else{
+        wikiSearch(breedText);
+    }
 }
 
-$("#result-content").on('click', breedSearchHandler)
+function getStorePets(){
+    $("#seeStoredResults").empty();
+    var savedResults = JSON.parse(localStorage.getItem("savePets"))
+    var savedResultsCard = document.createElement('div');
+    savedResultsCard.classList.add('card')
+    seeSavedResultsEl.append(savedResultsCard)
+
+    var savedresultsBody = document.createElement('div');
+    savedresultsBody.classList.add('card-body')
+    savedResultsCard.append(savedresultsBody);
+    var savedName = document.createElement('button');
+    savedresultsBody.append(savedName)
+    savedName.innerHTML = savedResults;   
+}
+
+$("#result-content").on('click', breedSearchHandler);
+$("#loadPets").on('click', getStorePets);
+
 
