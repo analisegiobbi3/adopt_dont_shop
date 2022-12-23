@@ -7,6 +7,7 @@ var resultsEl = $("#result-content");
 var breedSearchEl = $(".breedSearch")
 var seeSavedResultsEl = $("#seeStoredResults")
 
+
 // $('.dropdown-trigger').dropdown();
 
 //'https://api.petfinder.com/v2/animals?type=' + animal + '&status=' + city,
@@ -56,7 +57,18 @@ var petSearch = function (animal){
             var breed = data.animals[i].breeds.primary;
             var name  = data.animals[i].name;
             var status = data.animals[i].status;
-            var image = data.animals[i].photos[0].medium;
+            if (data.animals[i].photos.length>0){
+                if (data.animals[i].photos[0].small){
+                    var image = data.animals[i].photos[0].small;
+                }else if (data.animals[i].photos[0].medium){
+                    var image = data.animals[i].photos[0].medium;
+                }else if(data.animals[i].photos[0].large){
+                    var image = data.animals[i].photos[0].large;
+                }
+            }else{
+                var image = "https://oionline.com/wp-content/uploads/2018/03/notfound.jpg"
+            }
+
             var url = data.animals[i].url;
             renderResults(breed, name, status, image, url);
         }
@@ -148,7 +160,6 @@ var breedSearchHandler = function(event){
 function getStorePets(){
     $("#seeStoredResults").empty();
     var savedResults = JSON.parse(localStorage.getItem("savePets"))
-    console.log(savedResults)
     var savedResultsCard = document.createElement('div');
     savedResultsCard.classList.add('card')
     seeSavedResultsEl.append(savedResultsCard)
