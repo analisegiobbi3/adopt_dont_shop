@@ -4,14 +4,11 @@ var secretKey = '02v43RmzmoOLmigXxahBZHRRGTBqHerr6NpnVe87';
 var inputEl = $("#animal-name");
 var buttonEl = $("#searchAnimal");
 var resultsEl = $("#result-content");
-
 var breedSearchEl = $(".breedSearch")
 var seeSavedResultsEl = $("#seeStoredResults")
 var breedSearchEl = $(".breedSearch");
 
-// $('.dropdown-trigger').dropdown();
 
-//'https://api.petfinder.com/v2/animals?type=' + animal + '&status=' + city,
 
 //This function will handle grabbing the animal input. It will use and event handler to search on click.
 var searchHandler = function(event){
@@ -54,6 +51,7 @@ var petSearch = function (animal){
         console.log('pets', data);
         $("#result-content").empty();
         var animalArray = data.animals;
+        //loop goes through the animal array provided by the api call
         for (var i=0; i<animalArray.length; i++){
             var breed = data.animals[i].breeds.primary;
             var name  = data.animals[i].name;
@@ -87,17 +85,18 @@ var petSearch = function (animal){
 
 //wiki function take the breen from the previous data query and searches for it in wikipedia 
 function wikiSearch(searchTerm) {
-    var wikiURL = 'https://en.wikipedia.org/w/rest.php/v1/page/'+searchTerm;
-    // URL for potentially more accurate wiki search: 'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+searchTerm+ '&format=json'
+    // var wikiURL = 'https://en.wikipedia.org/w/rest.php/v1/page/'+searchTerm + '/html&origin=*';
+    var wikiURL = 'https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=' + searchTerm;
     fetch(wikiURL)
         .then(function(response){
+        console.log(response)
         response.json()
     .then(function(data) {
         console.log(data);
-        var breedSearch = data.source;
-        localStorage.setItem('storedBreed', JSON.stringify(breedSearch));
-        //html element, like <p> and we add text content 
-        document.location.assign('./breed-info.html');
+        var breedSearch = data.query.search
+        showResults(breedSearch)
+        // localStorage.setItem('storedBreed', JSON.stringify(breedSearch));
+        // document.location.assign('./breed-info.html');
     })
     })
     .catch(function (error) {
@@ -105,6 +104,35 @@ function wikiSearch(searchTerm) {
     })
 }
 
+
+//show results function shows all wiki results that come up when searching the dog breed
+function showResults(breedInfo){
+    resultsEl.innerHTML=''
+    resultsEl.empty();
+    breedInfo.forEach(function(item){
+        var breedTitle = item.title;
+        var breedSnippet = item.snippet;
+        var breedURL = encodeURI(`https://en.wikipedia.org/wiki/${item.title}`) 
+        console.log(breedTitle)
+        console.log(breedSnippet)
+        console.log(breedURL)
+        var resultsdiv = $("<div>");
+        var titleElement = $("<h3>");
+        titleElement.text(breedTitle)
+        var snippetElement = $("<p>");
+        snippetElement.text(breedSnippet)
+        var urlElement = $("<a>");
+        urlElement.text(breedURL)
+        resultsdiv.attr("class", "card")
+        snippetElement.attr("target", "_blank")
+        snippetElement.attr("rel", "noopener")
+        urlElement.attr("href", breedURL)
+        resultsEl.append(resultsdiv)
+        resultsdiv.append(titleElement, snippetElement, urlElement)
+    })
+}
+
+//This function renders the animal search on the
 function renderResults(breed, name, status, image, url){
     var resultsCard = document.createElement('div');
     resultsCard.classList.add('card')
@@ -123,7 +151,7 @@ function renderResults(breed, name, status, image, url){
 
     var animalImage = document.createElement('img');
     animalImage.setAttribute('src', image)
-    animalImage.setAttribute('style', 'display: block; flex; margin-left: auto; margin-right: auto;')
+    animalImage.setAttribute('style', 'display: block; flex; margin-bottom: auto; margin-left: auto; margin-right: auto;')
 
     
     var animalBreed = document.createElement('button');
@@ -145,6 +173,7 @@ function renderResults(breed, name, status, image, url){
     resultsBody.append(adoptionButton, animalName, animalImage, animalBreed, adoptionStatus, saveButton)
 }
 
+//saves the url for the pet 
 var storedPets = []
 var breedSearchHandler = function(event){
     var breedText = event.target.dataset.breed;
@@ -159,6 +188,7 @@ var breedSearchHandler = function(event){
     }
 }
 
+//grabs the stored adoption urls
 function getStorePets(){
     var getlocalStorage = JSON.parse(localStorage.getItem("savePets"))
     console.log(getlocalStorage)
@@ -168,8 +198,10 @@ function getStorePets(){
         var listSavedName = $("<li>");
         $("#seeStoredResults").append(listSavedName); 
         listSavedName.append(savedName);
+        listSavedName.attr("class", "card-body")
         savedName.text(getlocalStorage[j]);
         savedName.attr("href", getlocalStorage[j]);
+        savedName.attr("style", "color: white;")
     }
 }
 
