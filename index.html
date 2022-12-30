@@ -21,30 +21,18 @@
   <body>
     <header>
       <h1>Adopt, Don't Shop</h1>
-        <p>Find your furry friend today!</p>
+        <h5>Find your furry friend today!</h5>
     </header>
       <div class="row">
         <!-- Left Side of Page -->
         <div class="col s12 l6">
-          <!-- Dropdown Structure -->
-          <ul id='animalSelector' class='dropdown-content'>
-            <li><a href="#!">Cat</a></li>
-            <li><a href="#!">Dog</a></li>
-            <li class="divider" tabindex="-1"></li>
-            <li><a href="#!">Bird</a></li>
-            <li><a href="#!">four</a></li>
-            <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-          </ul>
-          
-          <!-- Dropdown Trigger -->
-          <a class='dropdown-trigger btn' href='#' data-target='animalSelector' style="background-color: #c77dff;">Common Pets</a>
           
           <div class="row">
             <form class="col s12">
               <div class="row">
                 <div class="input-field col s12">
                   <input id="animal-name" type="text" class="validate">
-                  <label for="search" style="color: white; font-size: 20px; font-weight: bold;">Search other animals...</label>
+                  <label for="search" style="color: white; font-size: 20px; font-weight: bold;">Search animals...</label>
                 </div>
               </div>
               <button class="btn waves-effect waves-light btn-large col s12" id="searchAnimal" type="submit" name="action" style="background-color: #c77dff;">Submit
@@ -58,7 +46,7 @@
           <br>
           <a class="waves-effect waves-light btn-large col s12" id="loadPets" style="background-color: #c77dff;">Load Saved Pets</a>
           <div>
-            <ul id="seeStoredResults"></ul>
+            <ul class="card" id="seeStoredResults"></ul>
           </div>
         </div>
 
