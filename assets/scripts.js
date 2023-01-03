@@ -20,6 +20,7 @@ var searchHandler = function(event){
     }else{
         //add error handler
     }
+    inputEl.val('')
 }
 buttonEl.on('click', searchHandler)
 
@@ -112,8 +113,8 @@ function showResults(breedInfo){
     breedInfo.forEach(function(item){
         var breedTitle = item.title;
         var breedSnippetW2Span = item.snippet;
-        var breedSnippet = breedSnippetW2Span.replace(/<span class="searchmatch">/g,'')
-        // (To Remove </span> but the extra / breaks it) var breedSnippet = breedSnippetW1Span.replace(/</span>/g,'')
+        var breedSnippetW1Span = breedSnippetW2Span.replace(/<span class="searchmatch">/g,'')
+        var breedSnippet = breedSnippetW1Span.replaceAll('</span>','')
         var breedURL = encodeURI(`https://en.wikipedia.org/wiki/${item.title}`)
         console.log(breedTitle)
         console.log(breedSnippet)
