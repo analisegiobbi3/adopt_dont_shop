@@ -1,6 +1,6 @@
 var apiKey = 'qQ7VYpNGk9n2b33tvNje8yNmYVxLsQo7SoYhZ7PPmLYKMhOLC2';
 //remove before commit
-var secretKey = '02v43RmzmoOLmigXxahBZHRRGTBqHerr6NpnVe87';
+var secretKey = '';
 var inputEl = $("#animal-name");
 var buttonEl = $("#searchAnimal");
 var resultsEl = $("#result-content");
@@ -111,8 +111,10 @@ function showResults(breedInfo){
     resultsEl.empty();
     breedInfo.forEach(function(item){
         var breedTitle = item.title;
-        var breedSnippet = item.snippet;
-        var breedURL = encodeURI(`https://en.wikipedia.org/wiki/${item.title}`) 
+        var breedSnippetW2Span = item.snippet;
+        var breedSnippet = breedSnippetW2Span.replace(/<span class="searchmatch">/g,'')
+        // (To Remove </span> but the extra / breaks it) var breedSnippet = breedSnippetW1Span.replace(/</span>/g,'')
+        var breedURL = encodeURI(`https://en.wikipedia.org/wiki/${item.title}`)
         console.log(breedTitle)
         console.log(breedSnippet)
         console.log(breedURL)
